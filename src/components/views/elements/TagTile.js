@@ -30,6 +30,7 @@ import GroupFilterOrderStore from '../../../stores/GroupFilterOrderStore';
 import MatrixClientContext from "../../../contexts/MatrixClientContext";
 import AccessibleButton from "./AccessibleButton";
 import SettingsStore from "../../../settings/SettingsStore";
+import {mediaFromMxc} from "../../../customisations/Media";
 
 // A class for a child of GroupFilterPanel (possibly wrapped in a DNDTagTile) that represents
 // a thing to click on for the user to filter the visible rooms in the RoomList to:
@@ -128,11 +129,11 @@ export default class TagTile extends React.Component {
         const BaseAvatar = sdk.getComponent('avatars.BaseAvatar');
         const profile = this.state.profile || {};
         const name = profile.name || this.props.tag;
-        const avatarHeight = 32;
+        const avatarSize = 32;
 
-        const httpUrl = profile.avatarUrl ? this.context.mxcUrlToHttp(
-            profile.avatarUrl, avatarHeight, avatarHeight, "crop",
-        ) : null;
+        const httpUrl = profile.avatarUrl
+            ? mediaFromMxc(profile.avatarUrl).getSquareThumbnailHttp(avatarSize)
+            : null;
 
         const isPrototype = SettingsStore.getValue("feature_communities_v2_prototypes");
         const className = classNames({
@@ -178,8 +179,8 @@ export default class TagTile extends React.Component {
                     name={name}
                     idName={this.props.tag}
                     url={httpUrl}
-                    width={avatarHeight}
-                    height={avatarHeight}
+                    width={avatarSize}
+                    height={avatarSize}
                 />
                 {contextButton}
                 {badgeElement}

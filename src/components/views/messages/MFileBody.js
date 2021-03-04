@@ -26,6 +26,7 @@ import Tinter from '../../../Tinter';
 import request from 'browser-request';
 import Modal from '../../../Modal';
 import AccessibleButton from "../elements/AccessibleButton";
+import {mediaFromContent} from "../../../customisations/Media";
 
 
 // A cached tinted copy of require("../../../../res/img/download.svg")
@@ -169,8 +170,8 @@ export default class MFileBody extends React.Component {
     }
 
     _getContentUrl() {
-        const content = this.props.mxEvent.getContent();
-        return MatrixClientPeg.get().mxcUrlToHttp(content.url);
+        const media = mediaFromContent(this.props.mxEvent.getContent());
+        return media.srcHttp;
     }
 
     componentDidMount() {

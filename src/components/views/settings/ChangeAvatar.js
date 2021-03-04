@@ -20,6 +20,7 @@ import {MatrixClientPeg} from "../../../MatrixClientPeg";
 import * as sdk from '../../../index';
 import { _t } from '../../../languageHandler';
 import Spinner from '../elements/Spinner';
+import {mediaFromMxc} from "../../../customisations/Media";
 
 export default class ChangeAvatar extends React.Component {
     static propTypes = {
@@ -115,7 +116,7 @@ export default class ChangeAvatar extends React.Component {
         httpPromise.then(function() {
             self.setState({
                 phase: ChangeAvatar.Phases.Display,
-                avatarUrl: MatrixClientPeg.get().mxcUrlToHttp(newUrl),
+                avatarUrl: mediaFromMxc(newUrl).srcHttp,
             });
         }, function(error) {
             self.setState({

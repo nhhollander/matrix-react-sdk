@@ -22,6 +22,7 @@ import * as sdk from "../../../index";
 import {MatrixClientPeg} from "../../../MatrixClientPeg";
 import { _t } from '../../../languageHandler';
 import { UserAddressType } from '../../../UserAddress.js';
+import {mediaFromMxc} from "../../../customisations/Media";
 
 
 export default class AddressTile extends React.Component {
@@ -46,9 +47,7 @@ export default class AddressTile extends React.Component {
         const isMatrixAddress = ['mx-user-id', 'mx-room-id'].includes(address.addressType);
 
         if (isMatrixAddress && address.avatarMxc) {
-            imgUrls.push(MatrixClientPeg.get().mxcUrlToHttp(
-                address.avatarMxc, 25, 25, 'crop',
-            ));
+            imgUrls.push(mediaFromMxc(address.avatarMxc).getSquareThumbnailHttp(25));
         } else if (address.addressType === 'email') {
             imgUrls.push(require("../../../../res/img/icon-email-user.svg"));
         }

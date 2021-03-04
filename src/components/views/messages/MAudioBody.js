@@ -23,6 +23,7 @@ import {MatrixClientPeg} from '../../../MatrixClientPeg';
 import { decryptFile } from '../../../utils/DecryptFile';
 import { _t } from '../../../languageHandler';
 import InlineSpinner from '../elements/InlineSpinner';
+import {mediaFromContent} from "../../../customisations/Media";
 
 export default class MAudioBody extends React.Component {
     constructor(props) {
@@ -41,11 +42,11 @@ export default class MAudioBody extends React.Component {
     }
 
     _getContentUrl() {
-        const content = this.props.mxEvent.getContent();
-        if (content.file !== undefined) {
+        const media = mediaFromContent(this.props.mxEvent.getContent());
+        if (media.isEncrypted) {
             return this.state.decryptedUrl;
         } else {
-            return MatrixClientPeg.get().mxcUrlToHttp(content.url);
+            return media.srcHttp;
         }
     }
 
